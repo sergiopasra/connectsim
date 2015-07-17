@@ -2,7 +2,7 @@
 import traceback
 import itertools
 
-import basenodes
+from conectsim.basenodes import Node, Source
 
 from conectsim.element import Element
 from conectsim.signal import Signal
@@ -39,10 +39,10 @@ class Device(Element):
             self.parent.children.append(self)
 
 
-class ConnectableDevice(Device, basenodes.Node):
+class ConnectableDevice(Device, Node):
     def __init__(self, name=None, parent=None):
         Device.__init__(self, name=name, parent=parent)
-        basenodes.Node.__init__(self)
+        Node.__init__(self)
 
 
 class ContainerDevice(ConnectableDevice):
@@ -55,7 +55,7 @@ class ContainerDevice(ConnectableDevice):
             d = c
             c = c.current()
 
-        if isinstance(c, basenodes.Source):
+        if isinstance(c, Source):
             return [c]
 
         if d.previousnode:
@@ -203,16 +203,4 @@ class Switch(ContainerDevice):
 
     def configure(self, meta):
         self.move_to(meta)
-
-
-
-
-class Wheel(Carrousel):
-    def __init__(self, capacity, name=None, parent=None):
-        super(Wheel, self).__init__(capacity, name=name, parent=parent)
-
-    def turn(self):
-        self._pos = (self._pos + 1) %  self._capacity
-        self._current = self._container[self._pos]
-        self.changed.emit(self._pos)
 

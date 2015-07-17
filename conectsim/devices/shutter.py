@@ -1,5 +1,5 @@
 
-from conectsim.devices.device import Wheel
+from conectsim.devices.wheel import Wheel
 from conectsim.optics.optelement import Stop, Open, Filter
 
 class Shutter(Wheel):

@@ -18,7 +18,7 @@ class Spectrograph(ConnectableDevice):
     def __init__(self):
         super(Spectrograph, self).__init__(name='spec')
         self.shutter = conectsim.devices.shutter.Shutter(parent=self)
-        self.wheel = conectsim.devices.wheel.VPHWheel(4, name='wheel', parent=self)
+        self.wheel = conectsim.devices.wheel.Wheel(4, name='wheel', parent=self)
         for idx in range(self.wheel._capacity):
             self.wheel.put_in_pos(VPHGrating('VPH%d'% idx), idx)
 

@@ -1,9 +1,4 @@
-
-import traceback
 import itertools
-
-import basenodes
-
 
 class Element(object):
     '''A generic device.'''
@@ -19,9 +14,3 @@ class Element(object):
             self.name = name
 
         super(Element, self).__init__()
-
-
-class ConnectableElement(Element, basenodes.Node):
-    def __init__(self, name=None):
-        Element.__init__(self, name=name)
-        basenodes.Node.__init__(self)

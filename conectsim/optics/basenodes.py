@@ -4,6 +4,7 @@ def connect(node1, node2):
 
 
 class BaseNode(object):
+    '''Something that can be connected to something else.'''
     def __init__(self, nin, nout, id=None):
         self.nin = nin
         self.nout = nout

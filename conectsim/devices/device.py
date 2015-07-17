@@ -1,14 +1,11 @@
+from conectsim.optics.basenodes import Node, Source
 
-import traceback
-import itertools
-
-from conectsim.basenodes import Node, Source
-
-from conectsim.element import Element
+from conectsim.devices.element import Element
 from conectsim.signal import Signal
 
 
 class Device(Element):
+    '''Something we can handle.'''
     def __init__(self, name=None, parent=None):
         self.parent = parent
         self.children = []
@@ -19,6 +16,7 @@ class Device(Element):
         super(Device, self).__init__(name)
 
     def config_info(self):
+        '''Return my configuration information.'''
         info = {}
         for dev in self.children:
             info[dev.name] = dev.config_info()
@@ -26,6 +24,7 @@ class Device(Element):
         return info
 
     def configure(self, meta):
+        """Configure myself and my children."""
         for dev in self.children:
             key = dev.name
             if key in meta:

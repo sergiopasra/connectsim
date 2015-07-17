@@ -1,6 +1,7 @@
 
-from conectsim.element import ConnectableElement, Element
-import conectsim.basenodes
+from conectsim.devices.element import Element
+from .conelement import ConnectableElement
+import conectsim.optics.basenodes
 
 class OpticalElement(ConnectableElement):
     '''A generic optical element.'''
@@ -30,6 +31,6 @@ class Open(OpticalElement):
         super(Open, self).__init__(transmission=None, name=name)
 
 
-class Stop(Element, conectsim.basenodes.Source):
+class Stop(Element, conectsim.optics.basenodes.Source):
     pass
 

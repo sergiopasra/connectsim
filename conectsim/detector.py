@@ -2,7 +2,7 @@
 
 import logging
 
-from .basenodes import Sink
+from conectsim.optics.basenodes import Sink
 from conectsim.devices.device import Device
 
 _logger = logging.getLogger('connectsim.detector')

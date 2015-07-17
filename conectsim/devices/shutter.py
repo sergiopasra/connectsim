@@ -1,6 +1,6 @@
 
-from .device import Wheel
-from .optelement import Stop, Open, Filter
+from conectsim.devices.device import Wheel
+from conectsim.optics.optelement import Stop, Open, Filter
 
 class Shutter(Wheel):
     def __init__(self, parent=None):

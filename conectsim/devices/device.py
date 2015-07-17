@@ -4,8 +4,8 @@ import itertools
 
 import basenodes
 
-from .element import Element
-from .signal import Signal
+from conectsim.element import Element
+from conectsim.signal import Signal
 
 
 class Device(Element):

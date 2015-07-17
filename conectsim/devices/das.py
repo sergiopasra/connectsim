@@ -4,9 +4,8 @@ from __future__ import division
 import logging
 from datetime import datetime
 
-from .device import Device
+from conectsim.devices.device import Device
 
-_logger = logging.getLogger('megarasim.das')
 
 class DataAdquisitionSystem(Device):
     def __init__(self, detector):

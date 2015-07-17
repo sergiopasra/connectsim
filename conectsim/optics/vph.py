@@ -1,5 +1,5 @@
 
-from .optelement import OpticalElement
+from conectsim.optelement import OpticalElement
 
 
 class VPHGrating(OpticalElement):

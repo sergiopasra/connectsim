@@ -1,6 +1,6 @@
 #
 
-from .optelement import OpticalElement
+from conectsim.optelement import OpticalElement
 
 class Atmosphere(OpticalElement):
     def __init__(self):

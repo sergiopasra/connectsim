@@ -1,6 +1,4 @@
-
-import basenodes
-from .device import Wheel
+from conectsim.devices.device import Wheel
 
 class VPHWheel(Wheel):
     def __init__(self, capacity, name, parent=None):

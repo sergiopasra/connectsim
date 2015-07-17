@@ -1,5 +1,5 @@
 
-from .device import Carrousel
+from conectsim.devices.device import Carrousel
 
 
 class CalibrationUnitSwitch(Carrousel):

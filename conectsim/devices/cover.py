@@ -1,7 +1,6 @@
-
 import numpy as np
 
-from .device import ConnectableDevice, Signal
+from conectsim.devices.device import ConnectableDevice, Signal
 
 class HemiCover(ConnectableDevice):
     STATES = [0,1]

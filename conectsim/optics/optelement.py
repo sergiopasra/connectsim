@@ -1,5 +1,5 @@
 
-from .element import ConnectableElement, Element
+from conectsim.element import ConnectableElement, Element
 import basenodes
 
 class OpticalElement(ConnectableElement):

@@ -2,9 +2,9 @@
 from .device import Carrousel
 
 
-class CalibrationUnitSelector(Carrousel):
+class CalibrationUnitSwitch(Carrousel):
     def __init__(self, parent=None):
-        super(CalibrationUnitSelector, self).__init__(3, name='cuselector', parent=parent)
+        super(CalibrationUnitSwitch, self).__init__(3, name='cuselector', parent=parent)
 
 
 class LampCarrousel(Carrousel):

@@ -5,32 +5,11 @@ import itertools
 import basenodes
 
 from .element import Element
+from .signal import Signal
 
-class Signal(object):
-    '''Signal used for callbacks.'''
-    def __init__(self):
-        self.callbacks = []
-    
-    def connect(self, callback):
-        self.callbacks.append(callback)
-        return len(self.callbacks) - 1
-
-    def delete(self, idx):
-        self.callbacks.pop(idx)
-
-    def emit(self, *args, **kwds):
-        for c in self.callbacks:
-            try:
-                res = c(*args, **kwds)
-                # we can use the result value
-                # to disable this callback...
-                # not yet implemented
-            except TypeError:
-                traceback.print_exc()
 
 class Device(Element):
     def __init__(self, name=None, parent=None):
-
         self.parent = parent
         self.children = []
 
@@ -40,10 +19,17 @@ class Device(Element):
         super(Device, self).__init__(name)
 
     def config_info(self):
-        return {'name': self.name}
+        info = {}
+        for dev in self.children:
+            info[dev.name] = dev.config_info()
+        info['name'] = self.name
+        return info
 
     def configure(self, meta):
-        pass
+        for dev in self.children:
+            key = dev.name
+            if key in meta:
+                dev.configure(meta[key])
 
     def set_parent(self, newparent):
         if self.parent:
@@ -59,7 +45,25 @@ class ConnectableDevice(Device, basenodes.Node):
         basenodes.Node.__init__(self)
 
 
-class Carrousel(ConnectableDevice):
+class ContainerDevice(ConnectableDevice):
+
+    def trace(self):
+
+        c = self.current()
+        d = self
+        while isinstance(c, ContainerDevice):
+            d = c
+            c = c.current()
+
+        if isinstance(c, basenodes.Source):
+            return [c]
+
+        if d.previousnode:
+            return d.previousnode.trace() +  [c]
+        return [c]
+
+
+class Carrousel(ContainerDevice):
     def __init__(self, capacity, name=None, parent=None):
         super(Carrousel, self).__init__(name=name, parent=parent)
         # Container is empty
@@ -89,7 +93,7 @@ class Carrousel(ConnectableDevice):
     def move_to(self, pos):
         if pos >= self._capacity or pos < 0:
             raise ValueError('Position %d out of bounds' % pos)
-        
+
         if pos != self._pos:
             self._pos = pos
             self._current = self._container[self._pos]
@@ -115,22 +119,92 @@ class Carrousel(ConnectableDevice):
             if isinstance(self._current, basestring):
                 label = self._current
             else:
-                label = self._current.name  
+                label = self._current.name
         else:
             label = 'Unknown'
-        return {'name': self.name, 'position': self._pos, 
+        return {'name': self.name, 'position': self._pos,
                 'label': label}
 
-    def trace(self):
+    def configure(self, meta):
+        self.move_to(meta)
 
-        c = self.current()
-        print c, c.name
-        if isinstance(c, basenodes.Source):
-            return [c]
 
-        if self.previousnode:
-            return self.previousnode.trace() +  [c]
-        return [c]
+class Switch(ContainerDevice):
+    def __init__(self, capacity, name=None, parent=None):
+        super(Switch, self).__init__(name=name, parent=parent)
+        # Container is empty
+        self._container = [None] * capacity
+        self._capacity = capacity
+        self._pos = 0
+        # object in the current position
+        self._current = self._container[self._pos]
+
+        # signals
+        self.changed = Signal()
+        self.moved = Signal()
+
+    def current(self):
+        return self._current
+
+    def head(self):
+        return self
+
+    def pos(self):
+        return self._pos
+
+    def connect_to_pos(self, obj, pos):
+        if pos >= self._capacity or pos < 0:
+            raise ValueError('position greater than capacity or negative')
+
+        obj.connect(self)
+
+        self._container[pos] = obj
+
+        self._current = self._container[self._pos]
+
+
+
+    def move_to(self, pos):
+        if pos >= self._capacity or pos < 0:
+            raise ValueError('Position %d out of bounds' % pos)
+        if pos != self._pos:
+            self._pos = pos
+            self._current = self._container[self._pos]
+            self.changed.emit(self._pos)
+
+        self._current.connect(self)
+        self.moved.emit(self._pos)
+
+
+    def select(self, name):
+        # find pos of object with name
+        for idx, item in enumerate(self._container):
+            if item:
+                if isinstance(item, basestring):
+                    if item == name:
+                        return self.move_to(idx)
+                elif item.name == name:
+                    return self.move_to(idx)
+                else:
+                    pass
+        else:
+            raise ValueError('No object named %s' % name)
+
+    def config_info(self):
+        if self._current:
+            if isinstance(self._current, basestring):
+                label = self._current
+            else:
+                label = self._current.name
+        else:
+            label = 'Unknown'
+        return {'name': self.name, 'position': self._pos,
+                'label': label}
+
+    def configure(self, meta):
+        self.move_to(meta)
+
+
 
 
 class Wheel(Carrousel):

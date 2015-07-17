@@ -96,7 +96,8 @@ class FullCover(ConnectableDevice):
      
     def config_info(self):
         return {'name': self.name, 'position': self.pos()}   
-        
+
+
 class C_Cover(FullCover):
     ''' MEGARA Cover'''
     NAMES = {'UNSET': 3,

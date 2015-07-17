@@ -1,12 +1,12 @@
 
 from astropy.io import fits
 
-class MegaraImageFactory(object):
+class InsImageFactory(object):
     CARDS_P = [
         ('OBSERVAT', 'ORM', 'Name of observatory'),
         ('TELESCOP', 'GTC', 'Telescope id.'),
         ('VPH', '{0[megara][wheel][label]}', 'VPH name'),
-        ('INSTRUME', 'MEGARA', 'Name of the Instrument'),
+        ('INSTRUME', 'INS', 'Name of the Instrument'),
         ('ORIGIN', '{0[control][name]}', 'FITS file originator'),
         ('SHUTTER', '{0[megara][shutter][label]}', 'Shutter position'),
         ('COVER', '{0[megara][cover][label]}', 'Cover status')

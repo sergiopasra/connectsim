@@ -14,16 +14,15 @@ from .astrophysics_unit import ergscm2aaarcsec2photonsm2nmarcsec2
 from .das import DataAdquisitionSystem
 from .cover import C_Cover
 from .device import Device
-from .factory import MegaraImageFactory
-from .shutter import MEGARA_Shutter
+from .factory import InsImageFactory
+from .shutter import Shutter
 from .optelement import OpticalElement
-from .calibration import CalibrationUnitSelector, LampCarrousel
+from .calibration import CalibrationUnitSwitch, LampCarrousel
 from .optelement import Stop, Open, Filter
 
 _logger = logging.getLogger('connectsim')
 
 class GenericCOptics(OpticalElement):
-    '''Generic MEGARA optics transmission. '''
     def __init__(self, transmission_file):
         self.transmission_interp = create_interpolator(transmission_file)
         super(GenericCOptics, self).__init__(self.transmission_interp, name="generic")
@@ -41,7 +40,7 @@ class C_Device(Device):
         # Setup calibration unit
         # One open position
         openentry = Open(name='CUOFF')
-        self.cuselector = CalibrationUnitSelector(parent=self)
+        self.cuselector = CalibrationUnitSwitch(parent=self)
         self.cuselector.put_in_pos(openentry, 0)
         # One calibration with continnum lamps
         cal_unit1 = LampCarrousel(capacity=3, name='a', parent=self.cuselector)
@@ -62,7 +61,7 @@ class C_Device(Device):
         self.pslit.set_parent(self)
         self.slit = Slit() # The PseudoSlit?
         self.optics = optics # Internal optics
-        self.shutter = MEGARA_Shutter(parent=self) # Internal shutter
+        self.shutter = Shutter(parent=self) # Internal shutter
         self.wheel = wheel # VPH Wheel (+ VPHs)
         self.wheel.set_parent(self)
         self.detector = detector # Detector
@@ -71,7 +70,7 @@ class C_Device(Device):
         self.das.set_parent(self)
 
         # How do we create MEGARA images
-        self.image_factory = MegaraImageFactory()
+        self.image_factory = InsImageFactory()
 
         # The selected VPH
         self.vph = self.wheel.current()

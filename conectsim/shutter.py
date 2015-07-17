@@ -2,11 +2,11 @@
 from .device import Wheel
 from .optelement import Stop, Open, Filter
 
-class MEGARA_Shutter(Wheel):
+class Shutter(Wheel):
     def __init__(self, parent=None):
-        super(MEGARA_Shutter, self).__init__(capacity=3, name='shutter', 
+        super(Shutter, self).__init__(capacity=3, name='shutter',
         parent=parent)
-        self.put_in_pos(Stop(name='shutter stop'), 0) # FIXME
+        self.put_in_pos(Stop(name='shutter closed'), 0) # FIXME
         self.put_in_pos(Open(name='shutter open'), 1) # FIXME
         # sorting order filter
         self.put_in_pos(Filter(transmission=None, name='filter'), 2) # FIXME

@@ -3,8 +3,8 @@ import basenodes
 from .device import Wheel
 
 class VPHWheel(Wheel):
-    def __init__(self, capacity, parent=None):
-        Wheel.__init__(self, capacity, name='wheel', parent=parent)
+    def __init__(self, capacity, name, parent=None):
+        Wheel.__init__(self, capacity, name=name, parent=parent)
 
     def transform(self, illumination):
         '''Transform the illumination passing through.'''

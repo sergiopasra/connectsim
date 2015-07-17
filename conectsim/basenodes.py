@@ -23,7 +23,6 @@ class BaseNode(object):
 
     def set_tail(self, node):
         self.previousnode = node
-        self.previousnode = node
 
     def receive(self, token):
         newdata = self.transform(token)

@@ -1,24 +1,25 @@
-
 import logging
 import math
 
 import numpy as np
-from scipy import interpolate, integrate
+
+from scipy import interpolate
+
 from scipy.ndimage.filters import convolve1d as image_convolve
 
-from .pseudoslit import Slit
+from conectsim.devices.pseudoslit import Slit
 from .simulator_utils import create_interpolator
 from .simulator_utils import apply_distortion
 from .megara_object import MegaraObject
 from .astrophysics_unit import ergscm2aaarcsec2photonsm2nmarcsec2
-from .das import DataAdquisitionSystem
-from .cover import C_Cover
-from .device import Device
+from conectsim.devices.das import DataAdquisitionSystem
+from conectsim.devices.cover import C_Cover
+from conectsim.devices.device import Device
 from .factory import InsImageFactory
-from .shutter import Shutter
-from .optelement import OpticalElement
-from .calibration import CalibrationUnitSwitch, LampCarrousel
-from .optelement import Stop, Open, Filter
+from conectsim.devices.shutter import Shutter
+from conectsim.optics.optelement import OpticalElement
+from conectsim.devices.calibration import CalibrationUnitSwitch, LampCarrousel
+from conectsim.optics.optelement import Stop, Open
 
 _logger = logging.getLogger('connectsim')
 

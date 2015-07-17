@@ -1,6 +1,6 @@
 
-from .optelement import OpticalElement
-from .device import ConnectableDevice
+from conectsim.optics.optelement import OpticalElement
+from conectsim.devices.device import ConnectableDevice
 
 class Telescope(OpticalElement, ConnectableDevice):
     '''A Telescope.'''

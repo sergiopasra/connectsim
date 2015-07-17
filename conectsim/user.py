@@ -12,7 +12,7 @@ import errno
 import yaml
 
 from .builder import instrument_builder
-from .obscond import conditions_builder, Atmosphere
+from conectsim.optics.obscond import conditions_builder, Atmosphere
 from .focal_plane import GaussianTar, TargetContainer
 from .control import ControlSystem
 

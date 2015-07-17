@@ -3,7 +3,7 @@
 import logging
 
 from .basenodes import Sink
-from .device import Device
+from conectsim.devices.device import Device
 
 _logger = logging.getLogger('connectsim.detector')
 

@@ -2,23 +2,23 @@ __author__ = 'spr'
 
 import conectsim
 import conectsim.detector
-import conectsim.shutter
-import conectsim.wheel
-from conectsim.device import ConnectableDevice, Device
-from conectsim.vph import VPHGrating
-from conectsim.optelement import Stop, Open
-from conectsim.pseudoslit import PseudoSlitSelector
-from conectsim.fiberlayout import FiberBundle
-from conectsim.calibration import CalibrationUnitSwitch, LampCarrousel
-from conectsim.device import Carrousel, Switch
+import conectsim.devices.shutter
+import conectsim.devices.wheel
+from conectsim.devices.device import ConnectableDevice
+from conectsim.optics.vph import VPHGrating
+from conectsim.optics.optelement import Stop, Open
+from conectsim.devices.pseudoslit import PseudoSlitSelector
+from conectsim.optics.fiberlayout import FiberBundle
+from conectsim.devices.calibration import LampCarrousel
+from conectsim.devices.device import Switch
 from conectsim.telescope import Telescope
-from conectsim.obscond import Atmosphere
+from conectsim.optics.obscond import Atmosphere
 
 class Spectrograph(ConnectableDevice):
     def __init__(self):
         super(Spectrograph, self).__init__(name='spec')
-        self.shutter = conectsim.shutter.Shutter(parent=self)
-        self.wheel = conectsim.wheel.VPHWheel(4, name='wheel', parent=self)
+        self.shutter = conectsim.devices.shutter.Shutter(parent=self)
+        self.wheel = conectsim.devices.wheel.VPHWheel(4, name='wheel', parent=self)
         for idx in range(self.wheel._capacity):
             self.wheel.put_in_pos(VPHGrating('VPH%d'% idx), idx)
 

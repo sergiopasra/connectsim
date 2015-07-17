@@ -1,5 +1,5 @@
 
-from conectsim.optelement import OpticalElement
+from conectsim.optics.optelement import OpticalElement
 
 class Fibers(OpticalElement):
     ''' Class encapsulating FIBER data. '''
